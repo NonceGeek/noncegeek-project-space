@@ -59,23 +59,26 @@ const ETHSpace: NextPage = () => {
   });
   return (
     <div className="grid lg:grid-cols-1 flex-grow">
-      <div className="hero min-h-screen bg-base-200 bg-gradient-to-r from-green-500 to-blue-500">
+      <div className="flex flex-col justify-center items-center bg-[url('/assets/gradient-bg.png')] bg-[length:100%_100%] py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
+      {/* <div className="hero min-h-screen bg-base-200 bg-gradient-to-r from-green-500 to-blue-500"> */}
         <div className="hero-content text-center">
           <div className="max-w-screen-xl">
             <h1 className="text-2xl font-bold">🏝️ NonceGeekDAO Project Islands 🏝️</h1>
             <p className="py-6"> -- See the AwEsOMe Projects powered by NonceGeekDAO!
-              <br></br><br></br> -- 😊power <b>50+ projects in web2/web3😊</b>{" "}
+              <br></br><br></br> -- 😊power <b>50+ projects in web2/WEB3😊</b>{" "}
             </p>
             <div className="join mb-6">
               <div className="grid gap-5 mt-5 md:grid-cols-2 lg:grid-cols-2">
-                {projects.map(({ id, name, description, status, url, github, tags, author }) => (
+                {projects.map(({ id, name, description, status, url, github, tags, author, whitepaper }) => (
                   <div
                     key={id}
                     className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                   >
                     <div className="p-5">
                       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{name}</h5>
-                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{description}</p>
+                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 h-20 overflow-y-auto">
+                        {description}
+                      </p>
                       <a
                         href={url}
                         target="_blank"
@@ -99,9 +102,18 @@ const ETHSpace: NextPage = () => {
                         href={author.twitter}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-64"
+                        className="inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32"
                       >
                         👀View the Author
+                      </a>
+                      &nbsp;&nbsp;&nbsp;
+                      <a
+                        href={whitepaper}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32"
+                      >
+                        📄Whitepaper on Bodhi
                       </a>
                       <br></br>
                       <br></br>

@@ -21,7 +21,7 @@ const ETHSpace: NextPage = () => {
   //在对后端发起请求后，将response的内容保存在results中
   //如果用户选择使用mixed模式，则使用resultByDataset来记录结果
   const [projects, setProjects] = useState([]);
-
+  const [filtedProjects, setFiltedProjects] = useState([]);
   //从后端获取数据集列表
   // useEffect(() => {
   //   fetchOptions();
@@ -41,7 +41,8 @@ const ETHSpace: NextPage = () => {
   // };
   //获取search prompt与dataset名字后向后端发request
   const init = async () => {
-
+    const queryParameters = new URLSearchParams(window.location.search);
+    const tag = queryParameters.get("tag");
     const response = await fetch("https://query-noncegeek-space.deno.dev", {
       method: "GET",
       headers: {
@@ -52,11 +53,17 @@ const ETHSpace: NextPage = () => {
     const data = await response.json();
     console.log("data:" + JSON.stringify(data));
     setProjects(data);
+    setFiltedProjects(data);
+    if (tag == "bodhi") {
+      const filtedProj = data.filter(elem => elem.if_bodhi == true);
+      console.log(filtedProj);
+      setFiltedProjects(filtedProj);
+    }
   };
 
   useEffect(() => {
     init();
-  });
+  }, []);
   return (
     <div className="grid lg:grid-cols-1 flex-grow">
       <div className="flex flex-col justify-center items-center bg-[url('/assets/gradient-bg.png')] bg-[length:100%_100%] py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
@@ -69,7 +76,7 @@ const ETHSpace: NextPage = () => {
             </p>
             <div className="join mb-6">
               <div className="grid gap-5 mt-5 md:grid-cols-2 lg:grid-cols-2">
-                {projects.map(({ id, name, description, status, url, github, tags, author, whitepaper }) => (
+                {filtedProjects.map(({ id, name, description, status, url, github, tags, author, whitepaper }) => (
                   <div
                     key={id}
                     className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"

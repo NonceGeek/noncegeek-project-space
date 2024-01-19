@@ -59,6 +59,11 @@ const ETHSpace: NextPage = () => {
       console.log(filtedProj);
       setFiltedProjects(filtedProj);
     }
+    if (tag == "gpt") {
+      const filtedProj = data.filter(elem => elem.if_gpt == true);
+      console.log(filtedProj);
+      setFiltedProjects(filtedProj);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +80,7 @@ const ETHSpace: NextPage = () => {
               <br></br><br></br> -- 😊power <b>50+ projects in web2/WEB3😊</b>{" "}
             </p>
             <div className="join mb-6">
-              <div className="grid gap-5 mt-5 md:grid-cols-2 lg:grid-cols-2">
+              <div className="grid gap-5 mt-5 md:grid-cols-3 lg:grid-cols-3">
                 {filtedProjects.map(({ id, name, description, status, url, github, tags, author, whitepaper }) => (
                   <div
                     key={id}

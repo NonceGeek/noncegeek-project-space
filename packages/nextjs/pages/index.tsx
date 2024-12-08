@@ -16,7 +16,6 @@ export type search_result = {
   metadata: {};
 };
 
-
 const ETHSpace: NextPage = () => {
   //在对后端发起请求后，将response的内容保存在results中
   //如果用户选择使用mixed模式，则使用resultByDataset来记录结果
@@ -52,15 +51,29 @@ const ETHSpace: NextPage = () => {
     });
     const data = await response.json();
     console.log("data:" + JSON.stringify(data));
-    setProjects(data);
-    setFiltedProjects(data);
+    
+    // Sort function to prioritize items with 🔥 in name
+    const sortByFire = (items) => {
+      return [...items].sort((a, b) => {
+        const aHasFire = a.name.includes('🔥');
+        const bHasFire = b.name.includes('🔥');
+        if (aHasFire && !bHasFire) return -1;
+        if (!aHasFire && bHasFire) return 1;
+        return 0;
+      });
+    };
+
+    const sortedData = sortByFire(data);
+    setProjects(sortedData);
+    setFiltedProjects(sortedData);
+
     if (tag == "bodhi") {
-      const filtedProj = data.filter(elem => elem.if_bodhi == true);
+      const filtedProj = sortByFire(data.filter(elem => elem.if_bodhi == true));
       console.log(filtedProj);
       setFiltedProjects(filtedProj);
     }
     if (tag == "gpt") {
-      const filtedProj = data.filter(elem => elem.if_gpt == true);
+      const filtedProj = sortByFire(data.filter(elem => elem.if_gpt == true));
       console.log(filtedProj);
       setFiltedProjects(filtedProj);
     }
@@ -72,12 +85,15 @@ const ETHSpace: NextPage = () => {
   return (
     <div className="grid lg:grid-cols-1 flex-grow">
       <div className="flex flex-col justify-center items-center bg-[url('/assets/gradient-bg.png')] bg-[length:100%_100%] py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
-      {/* <div className="hero min-h-screen bg-base-200 bg-gradient-to-r from-green-500 to-blue-500"> */}
+        {/* <div className="hero min-h-screen bg-base-200 bg-gradient-to-r from-green-500 to-blue-500"> */}
         <div className="hero-content text-center">
           <div className="max-w-screen-xl">
             <h1 className="text-2xl font-bold">🏝️ NonceGeekDAO Project Islands 🏝️</h1>
-            <p className="py-6"> -- See the AwEsOMe Projects powered by NonceGeekDAO!
-              <br></br><br></br> -- 😊power <b>50+ projects in web2/WEB3😊</b>{" "}
+            <p className="py-6">
+              {" "}
+              -- See the AwEsOMe Projects powered by NonceGeekDAO!
+              <br></br>
+              <br></br> -- 😊power <b>50+ projects in web2/WEB3😊</b>{" "}
             </p>
             <div className="join mb-6">
               <div className="grid gap-5 mt-5 md:grid-cols-3 lg:grid-cols-3">
@@ -88,9 +104,16 @@ const ETHSpace: NextPage = () => {
                   >
                     <div className="p-5">
                       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{name}</h5>
-                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 h-20 overflow-y-auto">
-                        {description}
-                      </p>
+                      <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 h-25 overflow-y-auto text-center">
+                        <ReactMarkdown
+                          className="flex justify-center"
+                          components={{
+                            img: ({ ...props }) => <img {...props} className="mx-auto" />,
+                          }}
+                        >
+                          {description}
+                        </ReactMarkdown>
+                      </div>
                       <a
                         href={url}
                         target="_blank"
@@ -132,11 +155,13 @@ const ETHSpace: NextPage = () => {
                       <div>
                         <b>Tags: </b>
                         {tags.map((tag, index) => (
-                          <span key={index} className="inline-flex items-center px-3 py-1 text-xs font-semibold leading-none text-white bg-orange-600 rounded-full">
+                          <span
+                            key={index}
+                            className="inline-flex items-center px-3 py-1 text-xs font-semibold leading-none text-white bg-orange-600 rounded-full"
+                          >
                             {tag}
                           </span>
                         ))}
-                        
                       </div>
                       <br></br>
                       <div>

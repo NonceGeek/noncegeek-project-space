@@ -12,10 +12,6 @@
 > 
 > https://projects.noncegeek.com/?tag=bodhi
 
-## Quickstart
-
-如果您想快速体验我们的功能请通过：<a href="https://smart-contract-explorer.movespace.xyz/">Lanuch App</a>
-
 ## Frontend
 ### Requirements
 
